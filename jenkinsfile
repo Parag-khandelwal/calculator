@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    environment {
+        // Set Python environment path if necessary
+        PYTHON_ENV = "C:\\Users\\khand\\AppData\\Local\\Programs\\Python\\Python312\\python.exe"   // Adjust based on where Python is installed
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Clone the Git repository
+                git 'https://your-git-repo-url.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                // Install Python dependencies (assuming requirements.txt)
+                sh '''
+                ${PYTHON_ENV} -m pip install --upgrade pip
+                ${PYTHON_ENV} -m pip install -r requirements.txt
+                '''
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                // Run unit tests using pytest or unittest
+                sh '''
+                ${PYTHON_ENV} -m unittest discover tests
+                '''
+            }
+        }
+
+        stage('Archive Results') {
+            steps {
+                // Archive the test results (JUnit, coverage reports, etc.)
+                junit '**/test-reports/*.xml'
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean workspace after the job is done
+            cleanWs()
+        }
+    }
+}
