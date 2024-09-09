@@ -33,15 +33,6 @@ pipeline {
             }
         }
 
-        stage("build") {
-            steps{
-                bat """
-                echo "Running the calculator app"
-                python .\\src\\calculator.py
-                echo "Successfully executed the application"
-                """
-            }
-        }
     }
 
     post {
