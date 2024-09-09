@@ -33,12 +33,6 @@ pipeline {
             }
         }
 
-        stage('Archive Results') {
-            steps {
-                // Archive the test results (JUnit, coverage reports, etc.)
-                junit 'report.xml'
-            }
-        }
     }
 
     post {
